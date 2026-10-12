@@ -28,7 +28,10 @@ body { margin: 0; color: var(--ink); background: #f4f3f0; font-family: -apple-sy
 .admin-invite-panel { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px; padding: 20px; border-radius: 20px; background: #faf1eb; }
 .admin-invite-copy p { margin: 5px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
 .admin-invite-button { min-width: 180px; }
-.admin-invite-result { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr auto; gap: 10px; padding-top: 14px; border-top: 1px solid #ead6c9; }
+.admin-invite-result { grid-column: 1 / -1; display: grid; gap: 12px; padding-top: 14px; border-top: 1px solid #ead6c9; }
+.admin-share-links { display: grid; gap: 12px; }
+.admin-share-label { display: block; margin: 0 0 6px; color: var(--muted); font-size: 13px; font-weight: 650; }
+.admin-share-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .admin-members-heading { display: flex; align-items: center; gap: 10px; margin: 26px 0 6px; }
 .admin-members-heading span { display: grid; place-items: center; min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px; background: #f4f3f0; color: #6f675e; font-size: 12px; font-weight: 700; }
 .admin-empty { padding: 13px 0 0; font-size: 14px; }
@@ -60,6 +63,7 @@ body { margin: 0; color: var(--ink); background: #f4f3f0; font-family: -apple-sy
   .admin-create-row, .admin-invite-panel, .admin-invite-result { grid-template-columns: 1fr; }
   .admin-invite-button { width: 100%; }
   .admin-invite-result { grid-column: auto; }
+  .admin-share-actions { display: grid; grid-template-columns: 1fr; }
   .admin-create-row .btn { width: 100%; }
   .li { align-items: center; }
   .admin-login { padding-top: 16px; }

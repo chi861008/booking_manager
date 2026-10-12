@@ -1,0 +1,19 @@
+:root { --bg: #f1efea; --ink: #302a25; --muted: #8b806f; --orange: #cf6939; --line: #e8e4dc; --peach: #f8e4d6; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); background: var(--bg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 17px; }
+.teacher-manage-page { width: min(100%, 900px); margin: 0 auto; padding: 32px 20px 100px; }
+.teacher-manage-heading { margin: 0 0 22px; }
+.teacher-manage-heading h1 { margin: 0 0 8px; font-size: clamp(28px, 6vw, 38px); }
+.teacher-manage-heading p, .hint { color: var(--muted); line-height: 1.55; }
+.card { background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: 22px; margin: 14px 0; box-shadow: 0 5px 16px #302a250a; }
+.card h2 { margin: 0 0 14px; font-size: 23px; }
+.card h3 { margin: 16px 0 5px; font-size: 18px; }
+.tin { min-width: 0; width: 100%; min-height: 52px; border: 1px solid var(--line); border-radius: 14px; padding: 12px 15px; background: white; color: var(--ink); font: inherit; }
+.btn { min-height: 48px; border-radius: 14px; padding: 10px 18px; font: inherit; font-weight: 650; cursor: pointer; }
+.btn:disabled { opacity: .55; cursor: default; }
+.btn.pri { background: var(--orange); border: 1px solid var(--orange); color: white; }
+.btn.outline { background: white; border: 1px solid var(--line); color: var(--ink); }
+.row, .li { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.li { border-top: 1px solid var(--line); padding: 13px 0; }
+.warn { color: #a33d2b; background: #fff1ec; border: 1px solid #e4a18e; border-radius: 12px; padding: 12px 15px; }
+@media (max-width: 560px) { .teacher-manage-page { padding: 22px 14px 80px; } .card { padding: 17px; } .row { align-items: stretch; flex-direction: column; } .li { align-items: flex-start; } }

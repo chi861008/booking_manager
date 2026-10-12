@@ -1,19 +1,63 @@
 :root { --bg: #f1efea; --ink: #302a25; --muted: #8b806f; --orange: #cf6939; --line: #e8e4dc; --peach: #f8e4d6; }
 * { box-sizing: border-box; }
-body { margin: 0; color: var(--ink); background: var(--bg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 17px; }
-.teacher-manage-page { width: min(100%, 900px); margin: 0 auto; padding: 32px 20px 100px; }
+body { margin: 0; color: var(--ink); background: #f4f3f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.5; }
+.teacher-manage-page { width: min(100%, 920px); margin: 0 auto; padding: 24px 24px 80px; }
+.admin-shell { min-height: 100dvh; }
+.admin-topbar { height: 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e9e7e2; margin-bottom: 38px; }
+.admin-brand { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 750; letter-spacing: -.02em; }
+.admin-brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 12px; color: #a34d26; background: #f8e4d6; font-size: 18px; }
+.admin-logout { min-height: 40px !important; padding: 7px 16px !important; }
+.admin-page-intro { margin: 0 0 28px; }
+.admin-page-intro h1 { margin: 4px 0 7px; font-size: clamp(30px, 4.5vw, 38px); line-height: 1.18; letter-spacing: -.035em; }
+.admin-page-intro p, .teacher-manage-heading p, .hint { color: var(--muted); line-height: 1.55; margin: 0; }
+.admin-eyebrow { color: #9a8a79; font-size: 11px; font-weight: 750; letter-spacing: .12em; }
 .teacher-manage-heading { margin: 0 0 22px; }
-.teacher-manage-heading h1 { margin: 0 0 8px; font-size: clamp(28px, 6vw, 38px); }
+.teacher-manage-heading h1 { margin: 5px 0 7px; font-size: 30px; line-height: 1.2; letter-spacing: -.03em; }
+.card { background: #fff; border: 1px solid #eae8e3; border-radius: 24px; padding: 24px; margin: 16px 0; box-shadow: 0 2px 5px #302a2505, 0 10px 28px #302a2508; }
+.admin-card h2 { margin: 0; font-size: 21px; line-height: 1.3; letter-spacing: -.02em; }
+.admin-card h3 { margin: 0; font-size: 16px; line-height: 1.35; }
+.admin-card-heading, .admin-studio-heading { display: flex; align-items: center; gap: 14px; }
+.admin-card-heading p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+.admin-step { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 14px; background: #f8e4d6; color: #a34d26; font-size: 13px; font-weight: 750; }
+.admin-create-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-top: 20px; }
+.admin-studio-card { padding: 28px; margin-top: 20px; }
+.admin-studio-heading { margin-bottom: 22px; }
+.admin-studio-heading h2 { margin-top: 2px; }
+.admin-member-count { margin-left: auto; padding: 7px 12px; border-radius: 999px; background: #f4f3f0; color: #6f675e; font-size: 13px; font-weight: 650; white-space: nowrap; }
+.admin-invite-panel { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px; padding: 20px; border-radius: 20px; background: #faf1eb; }
+.admin-invite-copy p { margin: 5px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.admin-invite-button { min-width: 180px; }
+.admin-invite-result { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr auto; gap: 10px; padding-top: 14px; border-top: 1px solid #ead6c9; }
+.admin-members-heading { display: flex; align-items: center; gap: 10px; margin: 26px 0 6px; }
+.admin-members-heading span { display: grid; place-items: center; min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px; background: #f4f3f0; color: #6f675e; font-size: 12px; font-weight: 700; }
+.admin-empty { padding: 13px 0 0; font-size: 14px; }
+.admin-login { display: grid; align-content: start; max-width: 560px; min-height: 100dvh; margin: 0 auto; }
+.admin-login-card { width: 100%; align-self: center; margin: 40px 0 15vh; }
+.admin-login-card .card { margin-top: 20px; }
 .teacher-manage-heading p, .hint { color: var(--muted); line-height: 1.55; }
-.card { background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: 22px; margin: 14px 0; box-shadow: 0 5px 16px #302a250a; }
-.card h2 { margin: 0 0 14px; font-size: 23px; }
-.card h3 { margin: 16px 0 5px; font-size: 18px; }
-.tin { min-width: 0; width: 100%; min-height: 52px; border: 1px solid var(--line); border-radius: 14px; padding: 12px 15px; background: white; color: var(--ink); font: inherit; }
-.btn { min-height: 48px; border-radius: 14px; padding: 10px 18px; font: inherit; font-weight: 650; cursor: pointer; }
+.tin { min-width: 0; width: 100%; min-height: 52px; border: 1px solid #dedbd4; border-radius: 16px; padding: 12px 16px; background: #fff; color: var(--ink); font: inherit; transition: border-color .16s, box-shadow .16s; }
+.tin:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px #cf693926; }
+.btn { min-height: 48px; border-radius: 16px; padding: 10px 20px; font: inherit; font-weight: 650; cursor: pointer; transition: transform .12s, box-shadow .12s, background .12s; }
+.btn:not(:disabled):active { transform: scale(.985); }
 .btn:disabled { opacity: .55; cursor: default; }
-.btn.pri { background: var(--orange); border: 1px solid var(--orange); color: white; }
-.btn.outline { background: white; border: 1px solid var(--line); color: var(--ink); }
+.btn.pri { background: #c85e2e; border: 1px solid #c85e2e; color: white; box-shadow: 0 2px 5px #a84c2726; }
+.btn.pri:hover:not(:disabled) { background: #b95025; box-shadow: 0 4px 10px #a84c2733; }
+.btn.outline { background: white; border: 1px solid #dedbd4; color: var(--ink); }
 .row, .li { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.li { border-top: 1px solid var(--line); padding: 13px 0; }
-.warn { color: #a33d2b; background: #fff1ec; border: 1px solid #e4a18e; border-radius: 12px; padding: 12px 15px; }
-@media (max-width: 560px) { .teacher-manage-page { padding: 22px 14px 80px; } .card { padding: 17px; } .row { align-items: stretch; flex-direction: column; } .li { align-items: flex-start; } }
+.li { border-top: 1px solid #eeece7; padding: 14px 0; font-size: 14px; }
+.li .hint { margin-top: 3px; font-size: 13px; }
+.warn { color: #8f3528; background: #fff0eb; border: 1px solid #ebc4b7; border-radius: 16px; padding: 13px 16px; }
+@media (max-width: 600px) {
+  .teacher-manage-page { padding: 16px 16px 56px; }
+  .admin-topbar { height: 56px; margin-bottom: 30px; }
+  .admin-page-intro { margin-bottom: 22px; }
+  .card { padding: 20px; border-radius: 22px; margin: 13px 0; }
+  .admin-studio-card { padding: 20px; }
+  .admin-create-row, .admin-invite-panel, .admin-invite-result { grid-template-columns: 1fr; }
+  .admin-invite-button { width: 100%; }
+  .admin-invite-result { grid-column: auto; }
+  .admin-create-row .btn { width: 100%; }
+  .li { align-items: center; }
+  .admin-login { padding-top: 16px; }
+  .admin-login-card { margin: 28px 0 12vh; }
+}

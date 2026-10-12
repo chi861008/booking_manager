@@ -24,6 +24,7 @@ body { margin: 0; color: var(--ink); background: #f4f3f0; font-family: -apple-sy
 .admin-studio-heading { margin-bottom: 22px; }
 .admin-studio-heading h2 { margin-top: 2px; }
 .admin-member-count { margin-left: auto; padding: 7px 12px; border-radius: 999px; background: #f4f3f0; color: #6f675e; font-size: 13px; font-weight: 650; white-space: nowrap; }
+.admin-delete-studio { color: #8f4638 !important; border-color: #e7d3ce !important; font-size: 13px; min-height: 40px; padding: 7px 13px; white-space: nowrap; }
 .admin-invite-panel { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px; padding: 20px; border-radius: 20px; background: #faf1eb; }
 .admin-invite-copy p { margin: 5px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
 .admin-invite-button { min-width: 180px; }
@@ -45,6 +46,7 @@ body { margin: 0; color: var(--ink); background: #f4f3f0; font-family: -apple-sy
 .btn.outline { background: white; border: 1px solid #dedbd4; color: var(--ink); }
 .row, .li { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .li { border-top: 1px solid #eeece7; padding: 14px 0; font-size: 14px; }
+.admin-invite-row { border-top: 0; padding: 7px 0 0; }
 .li .hint { margin-top: 3px; font-size: 13px; }
 .warn { color: #8f3528; background: #fff0eb; border: 1px solid #ebc4b7; border-radius: 16px; padding: 13px 16px; }
 @media (max-width: 600px) {
@@ -53,6 +55,8 @@ body { margin: 0; color: var(--ink); background: #f4f3f0; font-family: -apple-sy
   .admin-page-intro { margin-bottom: 22px; }
   .card { padding: 20px; border-radius: 22px; margin: 13px 0; }
   .admin-studio-card { padding: 20px; }
+  .admin-studio-heading { flex-wrap: wrap; }
+  .admin-delete-studio { margin-left: auto; }
   .admin-create-row, .admin-invite-panel, .admin-invite-result { grid-template-columns: 1fr; }
   .admin-invite-button { width: 100%; }
   .admin-invite-result { grid-column: auto; }

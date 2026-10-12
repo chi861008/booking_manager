@@ -62,12 +62,17 @@ export default function StudioAdminPage() {
       <button className="btn pri" disabled={busy || newName.trim().length < 2} onClick={() => void run(async () => { await request('/api/studio-admin', 'POST', { name: newName.trim() }); setNewName(''); })}>新增工作室</button>
     </div></section>
     {studios.map((studio, index) => <section className="card admin-card admin-studio-card" key={studio.id}>
-      <div className="admin-studio-heading"><span className="admin-step">{String(index + 2).padStart(2, '0')}</span><div><div className="admin-eyebrow">STUDIO</div><h2>{studio.name}</h2></div><span className="admin-member-count">{studio.members.length} 位老師</span></div>
+      <div className="admin-studio-heading"><span className="admin-step">{String(index + 2).padStart(2, '0')}</span><div><div className="admin-eyebrow">STUDIO</div><h2>{studio.name}</h2></div><span className="admin-member-count">{studio.members.length} 位老師</span>
+        <button type="button" className="btn outline admin-delete-studio" disabled={busy} onClick={() => {
+          const confirmed = window.confirm(`確定移除「${studio.name}」？工作室成員關係與邀請會刪除；老師帳號和一般課程會保留。未來已安排的工作室代課會取消，並交回原老師重新安排。`);
+          if (confirmed) void run(async () => { await request('/api/studio-admin', 'DELETE', { studioId: studio.id }); setInviteUrls(current => { const next = { ...current }; delete next[studio.id]; return next; }); });
+        }}>移除工作室</button>
+      </div>
       <div className="admin-invite-panel"><div className="admin-invite-copy"><h3>邀請老師加入</h3><p>邀請連結限一人使用，30 天內有效。複製後傳給老師，對方用 LINE 登入即可加入。</p></div>
       <button className="btn pri admin-invite-button" disabled={busy} onClick={() => void run(async () => { const result = await request('/api/studio-admin/invitations', 'POST', { studioId: studio.id }); setInviteUrls(current => ({ ...current, [studio.id]: result.url })); })}>產生邀請連結</button>
       {inviteUrls[studio.id] && <div className="admin-invite-result"><input className="tin" readOnly aria-label="邀請連結" value={inviteUrls[studio.id]} onFocus={event => event.target.select()} />
         <button className="btn outline" onClick={() => void navigator.clipboard.writeText(inviteUrls[studio.id])}>複製連結</button></div>}</div>
-      {studio.invitations.filter(row => !row.acceptedAt && !row.revokedAt && Date.parse(row.expiresAt) > Date.now()).map(row => <div className="li" key={row.id}>
+      {studio.invitations.filter(row => !row.acceptedAt && !row.revokedAt && Date.parse(row.expiresAt) > Date.now()).map(row => <div className="li admin-invite-row" key={row.id}>
         <span>未使用邀請・{new Date(row.expiresAt).toLocaleDateString('zh-TW')} 到期</span>
         <button className="btn outline" disabled={busy} onClick={() => void run(async () => { await request('/api/studio-admin/invitations', 'DELETE', { id: row.id }); })}>撤銷</button>
       </div>)}

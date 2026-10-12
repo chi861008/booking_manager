@@ -6,8 +6,7 @@ type Invitation = { id: string; expiresAt: string; acceptedAt: string | null; re
 type Studio = { id: string; name: string; members: Member[]; invitations: Invitation[] };
 
 function buildInviteMessage(studioName: string, inviteUrl: string) {
-  const teacherUrl = `${new URL(inviteUrl).origin}/teacher`;
-  return `嗨，邀請你加入「${studioName}」工作室。\n\n首次加入工作室（30 天內使用）：\n${inviteUrl}\n\n老師端入口（日後查看課表與處理代課）：\n${teacherUrl}\n\n請用你自己的 LINE 帳號開啟加入連結並登入。`;
+  return `嗨，邀請你加入「${studioName}」工作室。\n\n請用你自己的 LINE 帳號開啟以下連結並登入加入：\n${inviteUrl}\n\n加入後請保留這則訊息。之後重開同一個連結並用同一個 LINE 帳號登入，就能進入老師端。`;
 }
 
 export default function StudioAdminPage() {
@@ -74,11 +73,11 @@ export default function StudioAdminPage() {
           if (confirmed) void run(async () => { await request('/api/studio-admin', 'DELETE', { studioId: studio.id }); setInviteUrls(current => { const next = { ...current }; delete next[studio.id]; return next; }); });
         }}>移除工作室</button>
       </div>
-      <div className="admin-invite-panel"><div className="admin-invite-copy"><h3>邀請老師加入</h3><p>邀請連結限一人使用，30 天內有效。複製後傳給老師，對方用 LINE 登入即可加入。</p></div>
+      <div className="admin-invite-panel"><div className="admin-invite-copy"><h3>邀請老師加入</h3><p>邀請連結限一人使用，未加入前 30 天有效；加入後可用同一連結登入老師端。</p></div>
       <button className="btn pri admin-invite-button" disabled={busy} onClick={() => void run(async () => { const result = await request('/api/studio-admin/invitations', 'POST', { studioId: studio.id }); setInviteUrls(current => ({ ...current, [studio.id]: result.url })); setCopiedStudioId(''); })}>產生邀請連結</button>
       {inviteUrls[studio.id] && <div className="admin-invite-result">
         <div className="admin-share-links">
-          <div><span className="admin-share-label">首次加入工作室・30 天內使用</span><input className="tin" readOnly aria-label="加入工作室連結" value={inviteUrls[studio.id]} onFocus={event => event.target.select()} /></div>
+          <div><span className="admin-share-label">首次加入需於 30 天內完成；加入後可重複登入老師端</span><input className="tin" readOnly aria-label="工作室邀請與老師端入口" value={inviteUrls[studio.id]} onFocus={event => event.target.select()} /></div>
           <div><span className="admin-share-label">老師端入口・加入後可重複使用</span><input className="tin" readOnly aria-label="老師端入口" value={`${new URL(inviteUrls[studio.id]).origin}/teacher`} onFocus={event => event.target.select()} /></div>
         </div>
         <div className="admin-share-actions"><a className="btn pri admin-line-share" href={`https://line.me/R/share?text=${encodeURIComponent(buildInviteMessage(studio.name, inviteUrls[studio.id]))}`}>分享給 LINE 好友</a>

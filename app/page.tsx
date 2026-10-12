@@ -10,6 +10,9 @@ export default function StudioAdminPage() {
   const [username, setUsername] = useState(''); const [password, setPassword] = useState('');
   const [studios, setStudios] = useState<Studio[]>([]); const [newName, setNewName] = useState('');
   const [inviteUrls, setInviteUrls] = useState<Record<string, string>>({});
+  const [memberNames, setMemberNames] = useState<Record<string, string>>({});
+  const [lineIds, setLineIds] = useState<Record<string, string>>({});
+  const [memberNotice, setMemberNotice] = useState<Record<string, string>>({});
   const [error, setError] = useState(''); const [busy, setBusy] = useState(false);
   const load = useCallback(async () => {
     const response = await fetch('/api/studio-admin', { cache: 'no-store' });
@@ -58,7 +61,7 @@ export default function StudioAdminPage() {
     </div></section>
     {studios.map(studio => <section className="card" key={studio.id}>
       <h2>{studio.name}</h2>
-      <h3>邀請老師</h3><p className="hint">邀請連結限一人使用，有效期 7 天。</p>
+      <h3>邀請老師</h3><p className="hint">邀請連結限一人使用，有效期 30 天。</p>
       <button className="btn pri" disabled={busy} onClick={() => void run(async () => { const result = await request('/api/studio-admin/invitations', 'POST', { studioId: studio.id }); setInviteUrls(current => ({ ...current, [studio.id]: result.url })); })}>產生邀請連結</button>
       {inviteUrls[studio.id] && <div style={{ marginTop: 12 }}><input className="tin" readOnly aria-label="邀請連結" value={inviteUrls[studio.id]} onFocus={event => event.target.select()} />
         <button className="btn outline" style={{ marginTop: 8 }} onClick={() => void navigator.clipboard.writeText(inviteUrls[studio.id])}>複製連結</button></div>}
@@ -66,6 +69,18 @@ export default function StudioAdminPage() {
         <span>未使用邀請・{new Date(row.expiresAt).toLocaleDateString('zh-TW')} 到期</span>
         <button className="btn outline" disabled={busy} onClick={() => void run(async () => { await request('/api/studio-admin/invitations', 'DELETE', { id: row.id }); })}>撤銷</button>
       </div>)}
+      <h3 style={{ marginTop: 22 }}>用 LINE ID 加入老師</h3>
+      <p className="hint">老師不用加行政人員好友。請老師先在排課網站用 LINE 登入一次，將畫面顯示的 LINE ID 傳給行政人員；加入後即可登入。</p>
+      <div style={{ display: 'grid', gap: 10 }}>
+        <input className="tin" aria-label="老師姓名" placeholder="老師姓名" value={memberNames[studio.id] ?? ''} onChange={event => setMemberNames(current => ({ ...current, [studio.id]: event.target.value }))} />
+        <input className="tin" aria-label="LINE ID" placeholder="LINE ID（U 開頭的 33 碼代碼）" autoCapitalize="off" autoCorrect="off" value={lineIds[studio.id] ?? ''} onChange={event => setLineIds(current => ({ ...current, [studio.id]: event.target.value.trim() }))} />
+        <button className="btn pri" disabled={busy || !lineIds[studio.id]?.trim()} onClick={() => void run(async () => {
+          const result = await request('/api/studio-admin/members', 'POST', { studioId: studio.id, name: memberNames[studio.id] ?? '', lineUserId: lineIds[studio.id].trim() });
+          setMemberNotice(current => ({ ...current, [studio.id]: result.alreadyMember ? `${result.name} 已在這個工作室。` : `已將 ${result.name} 加入工作室。` }));
+          setLineIds(current => ({ ...current, [studio.id]: '' })); setMemberNames(current => ({ ...current, [studio.id]: '' }));
+        })}>加入老師</button>
+        {memberNotice[studio.id] && <p className="hint" role="status">{memberNotice[studio.id]}</p>}
+      </div>
       <h3 style={{ marginTop: 22 }}>工作室老師（{studio.members.length}）</h3>
       {studio.members.length === 0 && <p className="hint">目前沒有已加入的老師。</p>}
       {studio.members.map(member => <div className="li" key={member.id}><div><b>{member.name}</b><div className="hint">加入日期：{new Date(member.joinedAt).toLocaleDateString('zh-TW')}</div></div>

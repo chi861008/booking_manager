@@ -5,6 +5,11 @@ type Member = { id: string; name: string; joinedAt: string };
 type Invitation = { id: string; expiresAt: string; acceptedAt: string | null; revokedAt: string | null };
 type Studio = { id: string; name: string; members: Member[]; invitations: Invitation[] };
 
+function buildInviteMessage(studioName: string, inviteUrl: string) {
+  const teacherUrl = `${new URL(inviteUrl).origin}/teacher`;
+  return `嗨，邀請你加入「${studioName}」工作室。\n\n首次加入工作室（30 天內使用）：\n${inviteUrl}\n\n老師端入口（日後查看課表與處理代課）：\n${teacherUrl}\n\n請用你自己的 LINE 帳號開啟加入連結並登入。`;
+}
+
 export default function StudioAdminPage() {
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const [username, setUsername] = useState(''); const [password, setPassword] = useState('');
@@ -58,12 +63,12 @@ export default function StudioAdminPage() {
     </header>
     <div className="admin-page-intro"><div className="admin-eyebrow">ADMINISTRATION</div><h1>工作室總覽</h1><p>管理工作室、邀請老師加入，並維護工作室成員。</p></div>
     {error && <p className="warn" role="alert">{error}</p>}
-    <section className="card admin-card admin-create-card"><div className="admin-card-heading"><span className="admin-step">01</span><div><h2>新增工作室</h2><p>建立工作室後，即可邀請老師加入。</p></div></div><div className="admin-create-row">
+    <section className="card admin-card admin-create-card"><div className="admin-card-heading"><div><h2>新增工作室</h2><p>建立工作室後，即可邀請老師加入。</p></div></div><div className="admin-create-row">
       <input className="tin" aria-label="工作室名稱" placeholder="工作室名稱" value={newName} onChange={event => setNewName(event.target.value)} />
       <button className="btn pri" disabled={busy || newName.trim().length < 2} onClick={() => void run(async () => { await request('/api/studio-admin', 'POST', { name: newName.trim() }); setNewName(''); })}>新增工作室</button>
     </div></section>
-    {studios.map((studio, index) => <section className="card admin-card admin-studio-card" key={studio.id}>
-      <div className="admin-studio-heading"><span className="admin-step">{String(index + 2).padStart(2, '0')}</span><div><div className="admin-eyebrow">STUDIO</div><h2>{studio.name}</h2></div><span className="admin-member-count">{studio.members.length} 位老師</span>
+    {studios.map(studio => <section className="card admin-card admin-studio-card" key={studio.id}>
+      <div className="admin-studio-heading"><div><div className="admin-eyebrow">STUDIO</div><h2>{studio.name}</h2></div><span className="admin-member-count">{studio.members.length} 位老師</span>
         <button type="button" className="btn outline admin-delete-studio" disabled={busy} onClick={() => {
           const confirmed = window.confirm(`確定移除「${studio.name}」？工作室成員關係與邀請會刪除；老師帳號和一般課程會保留。未來已安排的工作室代課會取消，並交回原老師重新安排。`);
           if (confirmed) void run(async () => { await request('/api/studio-admin', 'DELETE', { studioId: studio.id }); setInviteUrls(current => { const next = { ...current }; delete next[studio.id]; return next; }); });
@@ -76,13 +81,12 @@ export default function StudioAdminPage() {
           <div><span className="admin-share-label">首次加入工作室・30 天內使用</span><input className="tin" readOnly aria-label="加入工作室連結" value={inviteUrls[studio.id]} onFocus={event => event.target.select()} /></div>
           <div><span className="admin-share-label">老師端入口・加入後可重複使用</span><input className="tin" readOnly aria-label="老師端入口" value={`${new URL(inviteUrls[studio.id]).origin}/teacher`} onFocus={event => event.target.select()} /></div>
         </div>
-        <div className="admin-share-actions"><button className="btn outline" onClick={() => void navigator.clipboard.writeText(inviteUrls[studio.id])}>複製加入連結</button>
-          <button className="btn pri" onClick={() => {
-            const inviteUrl = inviteUrls[studio.id];
-            const teacherUrl = `${new URL(inviteUrl).origin}/teacher`;
-            const message = `嗨，邀請你加入「${studio.name}」工作室。\n\n首次加入工作室（30 天內使用）：\n${inviteUrl}\n\n老師端入口（日後查看課表與處理代課）：\n${teacherUrl}\n\n請用你自己的 LINE 帳號開啟加入連結並登入。`;
-            void navigator.clipboard.writeText(message).then(() => setCopiedStudioId(studio.id));
-          }}>{copiedStudioId === studio.id ? '已複製邀請訊息' : '複製完整邀請訊息'}</button></div>
+        <div className="admin-share-actions"><a className="btn pri admin-line-share" href={`https://line.me/R/share?text=${encodeURIComponent(buildInviteMessage(studio.name, inviteUrls[studio.id]))}`}>分享給 LINE 好友</a>
+          <button className="btn outline" onClick={() => void navigator.clipboard.writeText(inviteUrls[studio.id]).catch(() => setError('無法複製，請直接選取上方連結。'))}>複製加入連結</button>
+          <button className="btn outline" onClick={() => {
+            void navigator.clipboard.writeText(buildInviteMessage(studio.name, inviteUrls[studio.id]))
+              .then(() => setCopiedStudioId(studio.id)).catch(() => setError('無法複製邀請訊息，請直接選取上方連結。'));
+          }}>{copiedStudioId === studio.id ? '已複製完整訊息' : '複製完整訊息'}</button></div>
       </div>}</div>
       {studio.invitations.filter(row => !row.acceptedAt && !row.revokedAt && Date.parse(row.expiresAt) > Date.now()).map(row => <div className="li admin-invite-row" key={row.id}>
         <span>未使用邀請・{new Date(row.expiresAt).toLocaleDateString('zh-TW')} 到期</span>

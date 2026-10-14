@@ -14,3 +14,9 @@
 npm install
 npm run dev
 ```
+
+## 老師請長假
+
+在工作室老師名單按「請長假」，選開始與結束日、代理老師，再預覽並逐堂確認代課／這週不上／候補。取消長假不會自動改回已轉出的課。老師端首頁保留代理入口，老師設定頁不再顯示長假表單。
+
+此功能仍使用現有 `PILATES_BACKEND_URL` 與 `STUDIO_ADMIN_API_SECRET`，兩個網站需要一起更新部署；不需要新增金鑰。排課端沿用既有 `migration.teacher-leaves.sql` 與代課／順延資料結構。

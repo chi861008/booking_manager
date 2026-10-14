@@ -1,4 +1,5 @@
 'use client';
+import LeavePanel from './LeavePanel';
 import { useCallback, useEffect, useState } from 'react';
 
 type Member = { id: string; name: string; joinedAt: string };
@@ -15,6 +16,8 @@ export default function StudioAdminPage() {
   const [studios, setStudios] = useState<Studio[]>([]); const [newName, setNewName] = useState('');
   const [inviteUrls, setInviteUrls] = useState<Record<string, string>>({});
   const [copiedStudioId, setCopiedStudioId] = useState('');
+  const [leaveTeacher, setLeaveTeacher] = useState<Member | null>(null);
+  const [notice, setNotice] = useState('');
   const [error, setError] = useState(''); const [busy, setBusy] = useState(false);
   const load = useCallback(async () => {
     const response = await fetch('/api/studio-admin', { cache: 'no-store' });
@@ -62,6 +65,8 @@ export default function StudioAdminPage() {
     </header>
     <div className="admin-page-intro"><div className="admin-eyebrow">ADMINISTRATION</div><h1>工作室總覽</h1><p>管理工作室、邀請老師加入，並維護工作室成員。</p></div>
     {error && <p className="warn" role="alert">{error}</p>}
+    {notice && <p role="status">{notice}</p>}
+    {leaveTeacher && <section className="card admin-card"><div className="admin-card-heading"><h2>{leaveTeacher.name}・請長假</h2><button className="btn outline" onClick={() => setLeaveTeacher(null)}>返回總覽</button></div><LeavePanel key={leaveTeacher.id} teacherId={leaveTeacher.id} notify={setNotice} /></section>}
     <section className="card admin-card admin-create-card"><div className="admin-card-heading"><div><h2>新增工作室</h2><p>建立工作室後，即可邀請老師加入。</p></div></div><div className="admin-create-row">
       <input className="tin" aria-label="工作室名稱" placeholder="工作室名稱" value={newName} onChange={event => setNewName(event.target.value)} />
       <button className="btn pri" disabled={busy || newName.trim().length < 2} onClick={() => void run(async () => { await request('/api/studio-admin', 'POST', { name: newName.trim() }); setNewName(''); })}>新增工作室</button>
@@ -94,6 +99,7 @@ export default function StudioAdminPage() {
       <div className="admin-members-heading"><h3>工作室老師</h3><span>{studio.members.length}</span></div>
       {studio.members.length === 0 && <p className="hint admin-empty">目前還沒有老師加入。</p>}
       {studio.members.map(member => <div className="li" key={member.id}><div><b>{member.name}</b><div className="hint">加入日期：{new Date(member.joinedAt).toLocaleDateString('zh-TW')}</div></div>
+        <button className="btn outline" disabled={busy} onClick={() => { setLeaveTeacher(member); setNotice(''); }}>請長假</button>
         <button className="btn outline" disabled={busy} onClick={() => { if (window.confirm(`移除 ${member.name}？未來的代課會改為待重新安排。`)) void run(async () => { await request(`/api/studio-admin/members/${member.id}`, 'DELETE'); }); }}>移除</button>
       </div>)}
     </section>)}

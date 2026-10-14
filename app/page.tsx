@@ -1,6 +1,6 @@
 'use client';
 import LeavePanel from './LeavePanel';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type Member = { id: string; name: string; joinedAt: string };
 type Invitation = { id: string; expiresAt: string; acceptedAt: string | null; revokedAt: string | null };
@@ -17,6 +17,12 @@ export default function StudioAdminPage() {
   const [inviteUrls, setInviteUrls] = useState<Record<string, string>>({});
   const [copiedStudioId, setCopiedStudioId] = useState('');
   const [leaveTeacher, setLeaveTeacher] = useState<Member | null>(null);
+  const leavePanelRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!leaveTeacher) return;
+    leavePanelRef.current?.focus({ preventScroll: true });
+    leavePanelRef.current?.scrollIntoView({ block: 'start' });
+  }, [leaveTeacher]);
   const [notice, setNotice] = useState('');
   const [error, setError] = useState(''); const [busy, setBusy] = useState(false);
   const load = useCallback(async () => {
@@ -66,7 +72,7 @@ export default function StudioAdminPage() {
     <div className="admin-page-intro"><div className="admin-eyebrow">ADMINISTRATION</div><h1>工作室總覽</h1><p>管理工作室、邀請老師加入，並維護工作室成員。</p></div>
     {error && <p className="warn" role="alert">{error}</p>}
     {notice && <p role="status">{notice}</p>}
-    {leaveTeacher && <section className="card admin-card"><div className="admin-card-heading"><h2>{leaveTeacher.name}・請長假</h2><button className="btn outline" onClick={() => setLeaveTeacher(null)}>返回總覽</button></div><LeavePanel key={leaveTeacher.id} teacherId={leaveTeacher.id} notify={setNotice} /></section>}
+    {leaveTeacher && <section ref={leavePanelRef} tabIndex={-1} role="region" aria-label={`${leaveTeacher.name}・請長假`} className="card admin-card"><div className="admin-card-heading"><h2>{leaveTeacher.name}・請長假</h2><button className="btn outline" onClick={() => setLeaveTeacher(null)}>返回總覽</button></div><LeavePanel key={leaveTeacher.id} teacherId={leaveTeacher.id} notify={setNotice} /></section>}
     <section className="card admin-card admin-create-card"><div className="admin-card-heading"><div><h2>新增工作室</h2><p>建立工作室後，即可邀請老師加入。</p></div></div><div className="admin-create-row">
       <input className="tin" aria-label="工作室名稱" placeholder="工作室名稱" value={newName} onChange={event => setNewName(event.target.value)} />
       <button className="btn pri" disabled={busy || newName.trim().length < 2} onClick={() => void run(async () => { await request('/api/studio-admin', 'POST', { name: newName.trim() }); setNewName(''); })}>新增工作室</button>

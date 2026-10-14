@@ -4,6 +4,8 @@ import { createStudioAdminSession, isStudioAdmin, sessionCookieOptions, STUDIO_A
 export const dynamic = 'force-dynamic';
 export async function GET() { return NextResponse.json({ authenticated: await isStudioAdmin() }); }
 export async function POST(req: Request) {
+  if (!process.env.STUDIO_ADMIN_USERNAME || !process.env.STUDIO_ADMIN_PASSWORD)
+    return NextResponse.json({ error: '行政登入帳密尚未設定，請管理者確認環境設定。' }, { status: 503 });
   const body = await req.json().catch(() => ({}));
   if (typeof body.username !== 'string' || typeof body.password !== 'string' || !verifyStudioAdminCredentials(body.username, body.password))
     return NextResponse.json({ error: '帳號或密碼錯誤' }, { status: 401 });

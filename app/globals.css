@@ -1,58 +1,57 @@
-:root { --bg: #f1efea; --ink: #302a25; --muted: #8b806f; --orange: #cf6939; --line: #e8e4dc; --peach: #f8e4d6; }
 * { box-sizing: border-box; }
-body { margin: 0; color: var(--ink); background: #f4f3f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.5; }
+body { margin: 0; color: var(--ink); background: var(--bg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.5; }
 .teacher-manage-page { width: min(100%, 920px); margin: 0 auto; padding: 24px 24px 80px; }
 .admin-shell { min-height: 100dvh; }
-.admin-topbar { height: 60px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e9e7e2; margin-bottom: 26px; }
+.admin-topbar { height: 60px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); margin-bottom: 26px; }
 .admin-brand { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 750; letter-spacing: -.02em; }
-.admin-brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 12px; color: #a34d26; background: #f8e4d6; font-size: 18px; }
+.admin-brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 12px; color: var(--accent-ink); background: var(--soft); font-size: 18px; }
 .admin-logout { min-height: 40px !important; padding: 7px 16px !important; }
 .admin-page-intro { margin: 0 0 20px; }
 .admin-page-intro h1 { margin: 4px 0 7px; font-size: clamp(30px, 4.5vw, 38px); line-height: 1.18; letter-spacing: -.035em; }
 .admin-page-intro p, .teacher-manage-heading p, .hint { color: var(--muted); line-height: 1.55; margin: 0; }
-.admin-eyebrow { color: #9a8a79; font-size: 11px; font-weight: 750; letter-spacing: .12em; }
+.admin-eyebrow { color: var(--muted); font-size: 11px; font-weight: 750; letter-spacing: .12em; }
 .teacher-manage-heading { margin: 0 0 22px; }
 .teacher-manage-heading h1 { margin: 5px 0 7px; font-size: 30px; line-height: 1.2; letter-spacing: -.03em; }
-.card { background: #fff; border: 1px solid #eae8e3; border-radius: 22px; padding: 20px; margin: 12px 0; box-shadow: 0 2px 5px #302a2505, 0 8px 22px #302a2508; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 20px; margin: 12px 0; box-shadow: 0 2px 5px #302a2505, 0 8px 22px #302a2508; }
 .admin-card h2 { margin: 0; font-size: 21px; line-height: 1.3; letter-spacing: -.02em; }
 .admin-card h3 { margin: 0; font-size: 16px; line-height: 1.35; }
 .admin-card-heading, .admin-studio-heading { display: flex; align-items: center; gap: 12px; }
 .admin-card-heading p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
-.admin-step { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 14px; background: #f8e4d6; color: #a34d26; font-size: 13px; font-weight: 750; }
+.admin-step { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 14px; background: var(--soft); color: var(--accent-ink); font-size: 13px; font-weight: 750; }
 .admin-create-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-top: 14px; }
 .admin-studio-card { padding: 22px; margin-top: 14px; }
 .admin-studio-heading { margin-bottom: 16px; }
 .admin-studio-heading h2 { margin-top: 2px; }
-.admin-member-count { margin-left: auto; padding: 7px 12px; border-radius: 999px; background: #f4f3f0; color: #6f675e; font-size: 13px; font-weight: 650; white-space: nowrap; }
-.admin-delete-studio { color: #8f4638 !important; border-color: #e7d3ce !important; font-size: 13px; min-height: 40px; padding: 7px 13px; white-space: nowrap; }
-.admin-invite-panel { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 14px; padding: 16px; border-radius: 18px; background: #faf1eb; }
+.admin-member-count { margin-left: auto; padding: 7px 12px; border-radius: 999px; background: var(--bg); color: var(--muted); font-size: 13px; font-weight: 650; white-space: nowrap; }
+.admin-delete-studio { color: var(--warn) !important; border-color: var(--line) !important; font-size: 13px; min-height: 40px; padding: 7px 13px; white-space: nowrap; }
+.admin-invite-panel { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 14px; padding: 16px; border-radius: 18px; background: var(--soft); }
 .admin-invite-copy p { margin: 5px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
 .admin-invite-button { min-width: 180px; }
-.admin-invite-result { grid-column: 1 / -1; display: grid; gap: 12px; padding-top: 14px; border-top: 1px solid #ead6c9; }
+.admin-invite-result { grid-column: 1 / -1; display: grid; gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }
 .admin-share-links { display: grid; gap: 12px; }
 .admin-share-label { display: block; margin: 0 0 6px; color: var(--muted); font-size: 13px; font-weight: 650; }
 .admin-share-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .admin-line-share { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
 .admin-members-heading { display: flex; align-items: center; gap: 10px; margin: 20px 0 4px; }
-.admin-members-heading span { display: grid; place-items: center; min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px; background: #f4f3f0; color: #6f675e; font-size: 12px; font-weight: 700; }
+.admin-members-heading span { display: grid; place-items: center; min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px; background: var(--bg); color: var(--muted); font-size: 12px; font-weight: 700; }
 .admin-empty { padding: 13px 0 0; font-size: 14px; }
 .admin-login { display: grid; align-content: start; max-width: 560px; min-height: 100dvh; margin: 0 auto; }
 .admin-login-card { width: 100%; align-self: center; margin: 40px 0 15vh; }
 .admin-login-card .card { margin-top: 20px; }
 .teacher-manage-heading p, .hint { color: var(--muted); line-height: 1.55; }
-.tin { min-width: 0; width: 100%; min-height: 52px; border: 1px solid #dedbd4; border-radius: 16px; padding: 12px 16px; background: #fff; color: var(--ink); font: inherit; transition: border-color .16s, box-shadow .16s; }
+.tin { min-width: 0; width: 100%; min-height: 52px; border: 1px solid var(--line); border-radius: 16px; padding: 12px 16px; background: var(--card); color: var(--ink); font: inherit; transition: border-color .16s, box-shadow .16s; }
 .tin:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px #cf693926; }
 .btn { min-height: 48px; border-radius: 16px; padding: 10px 20px; font: inherit; font-weight: 650; cursor: pointer; transition: transform .12s, box-shadow .12s, background .12s; }
 .btn:not(:disabled):active { transform: scale(.985); }
 .btn:disabled { opacity: .55; cursor: default; }
-.btn.pri { background: #c85e2e; border: 1px solid #c85e2e; color: white; box-shadow: 0 2px 5px #a84c2726; }
+.btn.pri { background: var(--on); border: 1px solid var(--on); color: white; box-shadow: 0 2px 5px #a84c2726; }
 .btn.pri:hover:not(:disabled) { background: #b95025; box-shadow: 0 4px 10px #a84c2733; }
-.btn.outline { background: white; border: 1px solid #dedbd4; color: var(--ink); }
+.btn.outline { background: var(--card); border: 1px solid var(--line); color: var(--ink); }
 .row, .li { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.li { border-top: 1px solid #eeece7; padding: 14px 0; font-size: 14px; }
+.li { border-top: 1px solid var(--line); padding: 14px 0; font-size: 14px; }
 .admin-invite-row { border-top: 0; padding: 7px 0 0; }
 .li .hint { margin-top: 3px; font-size: 13px; }
-.warn { color: #8f3528; background: #fff0eb; border: 1px solid #ebc4b7; border-radius: 16px; padding: 13px 16px; }
+.warn { color: var(--warn); background: var(--soft); border: 1px solid var(--line); border-radius: 16px; padding: 13px 16px; }
 @media (max-width: 600px) {
   .teacher-manage-page { padding: 16px 16px 56px; }
   .admin-topbar { height: 56px; margin-bottom: 22px; }
@@ -72,7 +71,6 @@ body { margin: 0; color: var(--ink); background: #f4f3f0; font-family: -apple-sy
 }
 
 /* 行政後台的請長假流程 */
-:root { --on:var(--orange); --soft:#faf1eb; --card:#fff; --on-ink:#fff; }
 .leave-settings .leave-row { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
 .leave-settings .leave-row:first-of-type { padding-top:0; }
 .leave-settings .leave-row b, .leave-proxy-card b { display:block; }
@@ -125,8 +123,7 @@ body { margin: 0; color: var(--ink); background: #f4f3f0; font-family: -apple-sy
 .admin-card-heading { justify-content:space-between; }
 
 /* 行政資訊依工作室、老師、操作逐層展開。 */
-:root { --muted:#706a62; --line:#e2dfd9; }
-body { background:#f7f6f3; }
+body { background:var(--bg); }
 .admin-shell { max-width:960px; }
 .admin-topbar { margin-bottom:32px; }
 .admin-page-intro h1 { font-size:30px; letter-spacing:-.02em; }
@@ -146,7 +143,7 @@ summary:focus-visible, button:focus-visible { outline:2px solid var(--orange); o
 .admin-create-card[open] > summary > span, .admin-invite-disclosure[open] > summary > span { transform:rotate(45deg); }
 .admin-studio-card { padding:0; margin:12px 0; overflow:visible; }
 .admin-studio-summary { display:flex; align-items:center; gap:14px; padding:20px; }
-.admin-studio-avatar { flex:none; display:grid; place-items:center; width:44px; height:44px; border-radius:12px; background:#f1eee8; color:#746657; font-size:18px; font-weight:700; }
+.admin-studio-avatar { flex:none; display:grid; place-items:center; width:44px; height:44px; border-radius:12px; background:var(--sel-bg); color:var(--muted); font-size:18px; font-weight:700; }
 .admin-studio-summary-copy { flex:1; min-width:0; }
 .admin-studio-summary-copy b { display:block; font-size:18px; overflow-wrap:anywhere; }
 .admin-studio-summary-copy small { display:block; margin-top:3px; color:var(--muted); font-size:13px; }
@@ -156,22 +153,22 @@ summary:focus-visible, button:focus-visible { outline:2px solid var(--orange); o
 .admin-studio-heading { margin-bottom:16px; }
 .admin-studio-heading h2 { font-size:16px; }
 .admin-invite-disclosure { border:1px solid var(--line); border-radius:10px; margin-bottom:24px; }
-.admin-invite-panel { background:#f8f7f4; border-radius:0 0 10px 10px; border-top:1px solid var(--line); }
+.admin-invite-panel { background:var(--message-bg); border-radius:0 0 10px 10px; border-top:1px solid var(--line); }
 .admin-invite-row { padding:12px 16px; }
 .admin-member-actions { display:flex; align-items:center; gap:8px; margin-left:auto; flex:none; }
-.admin-member-actions > .btn { min-height:40px; font-size:13px; background:#fff; }
+.admin-member-actions > .btn { min-height:40px; font-size:13px; background:var(--card); }
 .admin-member-more { position:relative; }
 .admin-member-more > summary { width:40px; height:40px; display:grid; place-items:center; font-size:24px; border-radius:8px; color:var(--muted); }
-.admin-member-more > summary:hover { background:#f4f3ef; }
+.admin-member-more > summary:hover { background:var(--sel-bg); }
 .admin-member-more > button { position:absolute; z-index:5; right:0; top:45px; width:120px; box-shadow:0 4px 18px #302a251a; }
-.admin-danger { color:#a43f31 !important; }
+.admin-danger { color:var(--warn) !important; }
 .admin-danger-disclosure { border-top:1px solid var(--line); margin-top:20px; padding-top:16px; }
 .admin-danger-disclosure > summary { color:var(--muted); font-size:13px; padding:4px 0; }
 .admin-danger-disclosure .hint { margin:12px 0; font-size:13px; }
 .admin-card-heading { justify-content:space-between; margin-bottom:20px; }
 .leave-settings > .settings-section-heading { display:none; }
 .leave-settings .leave-row { padding:16px 0; }
-.leave-settings > .btn.outline { border-color:var(--orange); color:#a34d26; background:#faf1eb; }
+.leave-settings > .btn.outline { border-color:var(--orange); color:var(--accent-ink); background:var(--soft); }
 @media (max-width:600px) {
   .admin-page-intro h1 { font-size:26px; }
   .admin-studio-summary { padding:16px; }
@@ -183,3 +180,25 @@ summary:focus-visible, button:focus-visible { outline:2px solid var(--orange); o
   .admin-studio-card .li .hint { font-size:11px; }
   .admin-card-heading { align-items:flex-start; }
 }
+
+/* 視覺基準與老師端一致：陶橘主色、中性底色、12px 卡片。 */
+:root { color-scheme:light; --bg:#f0eee9; --ink:#2e2722; --muted:#7d6f5c; --line:#e7e3da; --on:#d9622f; --orange:var(--on); --on-ink:#fff; --warn:#b2501f; --card:#fff; --soft:#fbe3d4; --peach:var(--soft); --message-bg:#f4f2ed; --accent-ink:#b2501f; --sel-bg:#e6e0d6; }
+@media (prefers-color-scheme:dark) { :root { color-scheme:dark; --bg:#14181d; --ink:#eef1f4; --muted:#bcc4cd; --line:#454d58; --on:#d9733f; --on-ink:#fff; --warn:#f59e7b; --card:#1d2229; --soft:#272d35; --message-bg:#222831; --accent-ink:#f5a983; --sel-bg:#2c323b; } }
+html, body { background:var(--bg); color:var(--ink); font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif; line-height:1.6; }
+button, input, select { color:var(--ink); font:inherit; }
+.card { border-radius:12px; box-shadow:0 1px 4px rgba(46,39,34,.05); }
+.admin-page-intro h1, .teacher-manage-heading h1 { font-size:1.4rem; line-height:1.4; }
+.admin-card h2 { font-size:1.08rem; }
+.admin-brand-mark { border-radius:10px; background:var(--sel-bg); color:var(--on); }
+.admin-studio-summary-copy b { font-size:1.08rem; }
+.admin-overview-stats b { font-size:1.08rem; }
+.btn { min-height:46px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-size:.9rem; }
+.btn.pri { background:var(--on); border-color:var(--on); color:var(--on-ink); font-weight:700; box-shadow:none; }
+.btn.pri:hover:not(:disabled) { background:color-mix(in srgb, var(--on) 90%, var(--ink)); box-shadow:none; }
+.btn:disabled { opacity:.4; }
+.tin { min-height:46px; border-radius:10px; }
+.tin:focus { border-color:var(--on); box-shadow:0 0 0 3px color-mix(in srgb, var(--on) 18%, transparent); }
+.admin-member-actions > .btn { background:var(--card); }
+.leave-settings > .btn.outline { color:var(--accent-ink); border-color:var(--on); background:var(--sel-bg); }
+@media (max-width:600px) { .card { border-radius:12px; } .admin-page-intro h1 { font-size:1.4rem; } }
+@media (prefers-reduced-motion:reduce) { .btn, .tin { transition:none; } }

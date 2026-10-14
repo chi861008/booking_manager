@@ -123,3 +123,63 @@ body { margin: 0; color: var(--ink); background: #f4f3f0; font-family: -apple-sy
 .btn.slim { padding:8px 12px; }
 .leave-lesson-pick select { font-size:16px; min-height:44px; }
 .admin-card-heading { justify-content:space-between; }
+
+/* 行政資訊依工作室、老師、操作逐層展開。 */
+:root { --muted:#706a62; --line:#e2dfd9; }
+body { background:#f7f6f3; }
+.admin-shell { max-width:960px; }
+.admin-topbar { margin-bottom:32px; }
+.admin-page-intro h1 { font-size:30px; letter-spacing:-.02em; }
+.admin-page-intro p { font-size:14px; }
+.card { border-radius:16px; box-shadow:none; }
+.btn { min-height:44px; border-radius:10px; padding:9px 16px; font-size:14px; }
+.btn.pri { box-shadow:none; }
+.tin { border-radius:10px; min-height:48px; }
+.admin-overview-stats { display:flex; gap:24px; color:var(--muted); font-size:14px; margin:24px 0; }
+.admin-overview-stats b { color:var(--ink); font-size:21px; margin-right:4px; }
+summary { list-style:none; cursor:pointer; }
+summary::-webkit-details-marker { display:none; }
+summary:focus-visible, button:focus-visible { outline:2px solid var(--orange); outline-offset:4px; }
+.admin-create-card { padding:0; background:transparent; border:1px dashed var(--line); margin-bottom:20px; }
+.admin-create-card > summary, .admin-invite-disclosure > summary { display:flex; justify-content:space-between; align-items:center; padding:15px 18px; font-size:14px; font-weight:650; }
+.admin-create-card > summary > span, .admin-invite-disclosure > summary > span { font-size:20px; color:var(--muted); }
+.admin-create-card[open] > summary > span, .admin-invite-disclosure[open] > summary > span { transform:rotate(45deg); }
+.admin-studio-card { padding:0; margin:12px 0; overflow:visible; }
+.admin-studio-summary { display:flex; align-items:center; gap:14px; padding:20px; }
+.admin-studio-avatar { flex:none; display:grid; place-items:center; width:44px; height:44px; border-radius:12px; background:#f1eee8; color:#746657; font-size:18px; font-weight:700; }
+.admin-studio-summary-copy { flex:1; min-width:0; }
+.admin-studio-summary-copy b { display:block; font-size:18px; overflow-wrap:anywhere; }
+.admin-studio-summary-copy small { display:block; margin-top:3px; color:var(--muted); font-size:13px; }
+.admin-disclosure-chevron { font-size:23px; color:var(--muted); }
+.admin-studio-card[open] > summary .admin-disclosure-chevron { transform:rotate(180deg); }
+.admin-disclosure-body { padding:20px; border-top:1px solid var(--line); }
+.admin-studio-heading { margin-bottom:16px; }
+.admin-studio-heading h2 { font-size:16px; }
+.admin-invite-disclosure { border:1px solid var(--line); border-radius:10px; margin-bottom:24px; }
+.admin-invite-panel { background:#f8f7f4; border-radius:0 0 10px 10px; border-top:1px solid var(--line); }
+.admin-invite-row { padding:12px 16px; }
+.admin-member-actions { display:flex; align-items:center; gap:8px; margin-left:auto; flex:none; }
+.admin-member-actions > .btn { min-height:40px; font-size:13px; background:#fff; }
+.admin-member-more { position:relative; }
+.admin-member-more > summary { width:40px; height:40px; display:grid; place-items:center; font-size:24px; border-radius:8px; color:var(--muted); }
+.admin-member-more > summary:hover { background:#f4f3ef; }
+.admin-member-more > button { position:absolute; z-index:5; right:0; top:45px; width:120px; box-shadow:0 4px 18px #302a251a; }
+.admin-danger { color:#a43f31 !important; }
+.admin-danger-disclosure { border-top:1px solid var(--line); margin-top:20px; padding-top:16px; }
+.admin-danger-disclosure > summary { color:var(--muted); font-size:13px; padding:4px 0; }
+.admin-danger-disclosure .hint { margin:12px 0; font-size:13px; }
+.admin-card-heading { justify-content:space-between; margin-bottom:20px; }
+.leave-settings > .settings-section-heading { display:none; }
+.leave-settings .leave-row { padding:16px 0; }
+.leave-settings > .btn.outline { border-color:var(--orange); color:#a34d26; background:#faf1eb; }
+@media (max-width:600px) {
+  .admin-page-intro h1 { font-size:26px; }
+  .admin-studio-summary { padding:16px; }
+  .admin-disclosure-body { padding:16px; }
+  .admin-studio-card, .admin-create-card { padding:0; }
+  .admin-member-actions { gap:3px; }
+  .admin-member-actions > .btn { padding:8px 10px; }
+  .admin-studio-card .li > div:first-child { min-width:0; overflow-wrap:anywhere; }
+  .admin-studio-card .li .hint { font-size:11px; }
+  .admin-card-heading { align-items:flex-start; }
+}

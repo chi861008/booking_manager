@@ -69,22 +69,21 @@ export default function StudioAdminPage() {
     <header className="admin-topbar"><div className="admin-brand"><span className="admin-brand-mark" aria-hidden="true">✦</span><span>工作室管理</span></div>
       <button className="btn outline admin-logout" onClick={() => void run(async () => { await request('/api/studio-admin/auth', 'DELETE'); setAuthenticated(false); })}>登出</button>
     </header>
-    <div className="admin-page-intro"><div className="admin-eyebrow">ADMINISTRATION</div><h1>工作室總覽</h1><p>管理工作室、邀請老師加入，並維護工作室成員。</p></div>
+    <div className="admin-page-intro"><div className="admin-eyebrow">工作室管理</div><h1>{leaveTeacher ? `${leaveTeacher.name}・長假管理` : '工作室總覽'}</h1><p>{leaveTeacher ? '查看現有長假，或新增請假期間與代理老師。' : '選擇工作室，再管理老師與邀請。'}</p></div>
     {error && <p className="warn" role="alert">{error}</p>}
     {notice && <p role="status">{notice}</p>}
-    {leaveTeacher && <section ref={leavePanelRef} tabIndex={-1} role="region" aria-label={`${leaveTeacher.name}・請長假`} className="card admin-card"><div className="admin-card-heading"><h2>{leaveTeacher.name}・請長假</h2><button className="btn outline" onClick={() => setLeaveTeacher(null)}>返回總覽</button></div><LeavePanel key={leaveTeacher.id} teacherId={leaveTeacher.id} notify={setNotice} /></section>}
-    <section className="card admin-card admin-create-card"><div className="admin-card-heading"><div><h2>新增工作室</h2><p>建立工作室後，即可邀請老師加入。</p></div></div><div className="admin-create-row">
+    {leaveTeacher && <section ref={leavePanelRef} tabIndex={-1} role="region" aria-label={`${leaveTeacher.name}・請長假`} className="card admin-card"><div className="admin-card-heading"><h2>長假紀錄</h2><button className="btn outline" onClick={() => setLeaveTeacher(null)}>返回總覽</button></div><LeavePanel key={leaveTeacher.id} teacherId={leaveTeacher.id} notify={setNotice} /></section>}
+    {!leaveTeacher && <>
+    <div className="admin-overview-stats"><span><b>{studios.length}</b> 間工作室</span><span><b>{studios.reduce((n, studio) => n + studio.members.length, 0)}</b> 位老師</span></div>
+    <details className="card admin-card admin-create-card"><summary>新增工作室<span aria-hidden="true">＋</span></summary><div className="admin-disclosure-body"><div className="admin-card-heading"><div><h2>新增工作室</h2><p>建立工作室後，即可邀請老師加入。</p></div></div><div className="admin-create-row">
       <input className="tin" aria-label="工作室名稱" placeholder="工作室名稱" value={newName} onChange={event => setNewName(event.target.value)} />
       <button className="btn pri" disabled={busy || newName.trim().length < 2} onClick={() => void run(async () => { await request('/api/studio-admin', 'POST', { name: newName.trim() }); setNewName(''); })}>新增工作室</button>
-    </div></section>
-    {studios.map(studio => <section className="card admin-card admin-studio-card" key={studio.id}>
-      <div className="admin-studio-heading"><div><div className="admin-eyebrow">STUDIO</div><h2>{studio.name}</h2></div><span className="admin-member-count">{studio.members.length} 位老師</span>
-        <button type="button" className="btn outline admin-delete-studio" disabled={busy} onClick={() => {
-          const confirmed = window.confirm(`確定移除「${studio.name}」？工作室成員關係與邀請會刪除；老師帳號和一般課程會保留。未來已安排的工作室代課會取消，並交回原老師重新安排。`);
-          if (confirmed) void run(async () => { await request('/api/studio-admin', 'DELETE', { studioId: studio.id }); setInviteUrls(current => { const next = { ...current }; delete next[studio.id]; return next; }); });
-        }}>移除工作室</button>
+    </div></div></details>
+    {studios.map(studio => <details className="card admin-card admin-studio-card" key={studio.id}><summary className="admin-studio-summary"><span className="admin-studio-avatar" aria-hidden="true">{studio.name.slice(0, 1)}</span><span className="admin-studio-summary-copy"><b>{studio.name}</b><small>{studio.members.length} 位老師</small></span><span className="admin-disclosure-chevron" aria-hidden="true">⌄</span></summary><div className="admin-disclosure-body">
+      <div className="admin-studio-heading"><h2>老師與邀請</h2>
+
       </div>
-      <div className="admin-invite-panel"><div className="admin-invite-copy"><h3>邀請老師加入</h3><p>邀請連結限一人使用，未加入前 30 天有效；加入後可用同一連結登入老師端。</p></div>
+      <details className="admin-invite-disclosure"><summary>邀請老師加入<span aria-hidden="true">＋</span></summary><div className="admin-invite-panel"><div className="admin-invite-copy"><h3>邀請老師加入</h3><p>邀請連結限一人使用，未加入前 30 天有效；加入後可用同一連結登入老師端。</p></div>
       <button className="btn pri admin-invite-button" disabled={busy} onClick={() => void run(async () => { const result = await request('/api/studio-admin/invitations', 'POST', { studioId: studio.id }); setInviteUrls(current => ({ ...current, [studio.id]: result.url })); setCopiedStudioId(''); })}>產生邀請連結</button>
       {inviteUrls[studio.id] && <div className="admin-invite-result">
         <div className="admin-share-links">
@@ -102,13 +101,19 @@ export default function StudioAdminPage() {
         <span>未使用邀請・{new Date(row.expiresAt).toLocaleDateString('zh-TW')} 到期</span>
         <button className="btn outline" disabled={busy} onClick={() => void run(async () => { await request('/api/studio-admin/invitations', 'DELETE', { id: row.id }); })}>撤銷</button>
       </div>)}
+      </details>
       <div className="admin-members-heading"><h3>工作室老師</h3><span>{studio.members.length}</span></div>
       {studio.members.length === 0 && <p className="hint admin-empty">目前還沒有老師加入。</p>}
       {studio.members.map(member => <div className="li" key={member.id}><div><b>{member.name}</b><div className="hint">加入日期：{new Date(member.joinedAt).toLocaleDateString('zh-TW')}</div></div>
-        <button className="btn outline" disabled={busy} onClick={() => { setLeaveTeacher(member); setNotice(''); }}>請長假</button>
-        <button className="btn outline" disabled={busy} onClick={() => { if (window.confirm(`移除 ${member.name}？未來的代課會改為待重新安排。`)) void run(async () => { await request(`/api/studio-admin/members/${member.id}`, 'DELETE'); }); }}>移除</button>
+        <div className="admin-member-actions"><button className="btn outline" disabled={busy} onClick={() => { setLeaveTeacher(member); setNotice(''); }}>長假管理</button>
+        <details className="admin-member-more"><summary aria-label={`${member.name} 的更多操作`}>⋯</summary><button className="btn outline admin-danger" disabled={busy} onClick={() => { if (window.confirm(`移除 ${member.name}？未來的代課會改為待重新安排。`)) void run(async () => { await request(`/api/studio-admin/members/${member.id}`, 'DELETE'); }); }}>移除老師</button></details></div>
       </div>)}
-    </section>)}
-    {studios.length === 0 && <section className="card"><p className="hint">尚未建立工作室。</p></section>}
+      <details className="admin-danger-disclosure"><summary>工作室進階設定</summary><p className="hint">移除工作室會解除成員關係，請確認後再操作。</p>        <button type="button" className="btn outline admin-delete-studio" disabled={busy} onClick={() => {
+          const confirmed = window.confirm(`確定移除「${studio.name}」？工作室成員關係與邀請會刪除；老師帳號和一般課程會保留。未來已安排的工作室代課會取消，並交回原老師重新安排。`);
+          if (confirmed) void run(async () => { await request('/api/studio-admin', 'DELETE', { studioId: studio.id }); setInviteUrls(current => { const next = { ...current }; delete next[studio.id]; return next; }); });
+        }}>移除工作室</button></details>
+    </div></details>)}
+    {studios.length === 0 && <section className="card"><p className="hint">尚未建立工作室，點上方「新增工作室」開始。</p></section>}
+    </>}
   </main>;
 }
